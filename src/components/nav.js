@@ -2,25 +2,40 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { useState } from "react";
+import Avatar from "@mui/material/Avatar";
 import Popover from "@mui/material/Popover";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import BusinessIcon from "@mui/icons-material/Business";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import AppsIcon from "@mui/icons-material/Apps";
+import Typography from "@mui/material/Typography";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
 import SettingsApplicationsSharpIcon from "@mui/icons-material/SettingsApplicationsSharp";
-import Avatar from "@mui/material/Avatar";
-import { Navigate, useNavigate } from "react-router-dom";
+import AppsIcon from "@mui/icons-material/Apps";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { postRequest } from "../serverconfiguration/requestcomp";
+import { ServerConfig } from "../serverconfiguration/serverconfig";
+import { REPORTS } from "../serverconfiguration/controllers";
 
 export default function MainPage() {
   const navigate = useNavigate();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+  const [employeeImage, setEmployeeImage] = useState("");
+  const [userName,setUsername] = useState(null);
+
+  useEffect(() => {
+    async function getData() {
+      const response = await postRequest(ServerConfig.url, REPORTS, {
+        query: `select * from employeeimage where employeecode='${sessionStorage.getItem("user")}'`
+      });
+      if (response.data && response.data.length > 0) {
+        setEmployeeImage(response.data[0].image);
+      }
+        // const user = sessionStorage.getItem("user");
+        // setUsername(user);
+    }
+    getData();
+  }, []);
 
   const handlePopoverOpen = (event) => {
     setPopoverAnchorEl(event.currentTarget);
@@ -62,10 +77,12 @@ export default function MainPage() {
             <SettingsApplicationsSharpIcon />
           </IconButton>
           <AppsIcon onClick={handlePopoverOpen} />
-          {sessionStorage.getItem("user") != null ? (
-            <Avatar>{sessionStorage.getItem("user").charAt(0)}</Avatar>
+          {employeeImage ? (
+            <Avatar src={employeeImage} />
           ) : (
-            <div></div>
+            sessionStorage.getItem("user") && (
+              <Avatar>{sessionStorage.getItem("user").charAt(0)}</Avatar>
+            )
           )}
         </Toolbar>
       </AppBar>

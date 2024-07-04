@@ -176,6 +176,8 @@ import PaymPaypfTable from "./components/PaymPf/paympfTable";
 import GroupShift from "./components/Group UI/GroupShift";
 import LeaveApproveTable09 from "./components/LeaveApprovalFrom/LeaveApproveTable";
 import Reports from "./components/OverallReports/Reports";
+import EmployeeImageForm from "./components/Uploadimage/uploadimage";
+import ProfileCard from "./components/Uploadimage/viewimage";
 const store = createStore(entityReducer);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -528,7 +530,9 @@ root.render(
 
           <Route path="/leaveapptable" element={<LeaveApproveTable09/>}></Route>
 
-          <Route path="/reports" element={<Reports/>}></Route>
+          <Route path="/uploadimage" element={<EmployeeImageForm/>}></Route>
+
+          <Route path="/viewimage" element={<ProfileCard/>}></Route>
 
         </Route>
       </Routes>
