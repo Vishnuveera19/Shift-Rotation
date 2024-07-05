@@ -178,6 +178,8 @@ import LeaveApproveTable09 from "./components/LeaveApprovalFrom/LeaveApproveTabl
 import Reports from "./components/OverallReports/Reports";
 import EmployeeImageForm from "./components/Uploadimage/uploadimage";
 import ProfileCard from "./components/Uploadimage/viewimage";
+import ShiftRotation from "./components/Rotateshif/shiftRotation";
+
 const store = createStore(entityReducer);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -533,6 +535,8 @@ root.render(
           <Route path="/uploadimage" element={<EmployeeImageForm/>}></Route>
 
           <Route path="/viewimage" element={<ProfileCard/>}></Route>
+
+          <Route path="/rotateshift" element={<ShiftRotation/>}></Route>
 
         </Route>
       </Routes>
